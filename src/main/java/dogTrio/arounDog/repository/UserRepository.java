@@ -24,8 +24,8 @@ public class UserRepository {
 //        em.persist(userDto);
 //    }
 
-    public Optional<User> findOne(Long id) {
-        return Optional.ofNullable(em.find(User.class, id));
+    public User findOne(Long id) {
+        return em.find(User.class, id);
     }
 
     public List<Walk> userWalkList(Long id) {
