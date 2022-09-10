@@ -28,6 +28,10 @@ public class UserRepository {
         return em.find(User.class, id);
     }
 
+    public Optional<User> findByUserId(String userId) {
+        List<User> members = em.createQuery("select u from User u where u.userId = :userId", User.class).setParameter("userId", userId).getResultList();
+        return members.stream().findAny();
+    }
     public List<Walk> userWalkList(Long id) {
         return em.createQuery("select w from Walk w where w.userId = :id", Walk.class).setParameter("id", id).getResultList();
     }

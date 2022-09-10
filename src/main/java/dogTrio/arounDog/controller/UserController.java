@@ -18,25 +18,14 @@ public class UserController {
 
     private final UserService userService;
 
-//    @GetMapping("/user")
-//    @Transactional
-//    public User getUser() {
-//        User user1 = new User("park", "1234", 20, 1, "010", "hye@naver.com", Gender.MAN);
-//        em.persist(user1);
-//
-//        User findUser = em.find(User.class, 1L);
-//        log.debug("findUser {}", findUser);
-//        return findUser;
-//    }
-
-    @PostMapping("/user")
-    public Long join(@RequestBody User user) {
-
-        Long userId = userService.join(user);
-        return userId;
+    @PostMapping("/user/register")
+    public Boolean register(UserDto userDto) {
+        User user = UserDto.createUser(userDto);
+        String userId = userService.join(user);
+        if (userId != null) {
+            return true;
+        }
+        return false;
     }
-
-
-
 }
 

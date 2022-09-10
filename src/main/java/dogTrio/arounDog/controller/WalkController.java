@@ -38,7 +38,7 @@ public class WalkController {
     }
 
     @PostMapping("/walk/{userId}/add")//산책 추가
-    public void addWalk(@PathVariable Long userId, @ModelAttribute WalkMultipartDto dto) throws IOException {
+    public void addWalk(@PathVariable String userId, @ModelAttribute WalkMultipartDto dto) throws IOException {
         String path = "C:/Image/" + dto.getStartTime().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")) + "#" + userId+".jpg";
         File temp = new File(path);
         dto.getImage().transferTo(temp);

@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -18,9 +20,9 @@ public class WalkService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void addWalk(Long memberId, WalkDto walkDto, String path) {
-        User user = userRepository.findOne(memberId);
-        walkDto.setUserAndPath(user, path);
+    public void addWalk(String userId, WalkDto walkDto, String path) {
+        Optional<User> user = userRepository.findByUserId(userId);
+        walkDto.setUserAndPath(user.get(), path);
         walkRepository.save(walkDto);
     }
 }

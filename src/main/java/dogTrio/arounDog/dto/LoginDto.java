@@ -9,7 +9,7 @@ import javax.persistence.Enumerated;
 
 @Getter
 public class LoginDto {
-    private Long id;
+    private String userId;
     private String password;
     private Integer age;
     private int image;
@@ -23,7 +23,7 @@ public class LoginDto {
     private Boolean success;
 
     public LoginDto(User user, Boolean success) {
-        this.id = user.getId();
+        this.userId = user.getUserId();
         this.userName = user.getUserName();
         this.password = user.getPassword();
         this.age = user.getAge();
