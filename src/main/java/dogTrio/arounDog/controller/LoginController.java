@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -23,8 +24,9 @@ public class LoginController {
 
 
     @GetMapping("/login")
-    public LoginDto login(@Valid @RequestParam Long id, @Valid @RequestParam String password) {
-        User findUser = userRepository.findOne(id);
+    public LoginDto login(@Valid @RequestParam String userId, @Valid @RequestParam String password) {
+        Optional<User> user = userRepository.findByUserId(userId);
+        User findUser = user.get();
         if (findUser.getPassword().equals(password)) {
             return new LoginDto(findUser, true);
         }
@@ -32,8 +34,13 @@ public class LoginController {
     }
 
     @GetMapping("/login/idValidate")
-    public Boolean idValidate(@Valid @RequestParam Long id) {
-        Optional<User> user = Optional.ofNullable(userRepository.findOne(id));
-        if()
+    public Boolean idValidate(@Valid @RequestParam String userId) {
+        Optional<User> findUser = userRepository.findByUserId(userId);
+        if (findUser.isPresent()) {
+            return true;
+        }
+        return false;
     }
+
+
 }
