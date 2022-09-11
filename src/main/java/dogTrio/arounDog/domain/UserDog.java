@@ -24,13 +24,13 @@ public class UserDog {
 
     private String name;
     private Integer age;
-    private Integer weight;
-    private Integer height;
+    private Double weight;
+    private Double height;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    public static UserDog createUserDog(User user, Dog dog, String name, Integer age, Integer weight, Integer height) {
+    public static UserDog createUserDog(User user, Dog dog, String name, Integer age, Double weight, Double height) {
         UserDog userDog = new UserDog();
         userDog.setUser(user);
         userDog.setDog(dog);
