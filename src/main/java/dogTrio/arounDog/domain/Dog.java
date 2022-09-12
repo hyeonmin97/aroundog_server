@@ -8,7 +8,8 @@ import javax.persistence.*;
 @Getter
 public class Dog {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Enumerated(EnumType.STRING)

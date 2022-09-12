@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
 @Setter(AccessLevel.PRIVATE)
 public class Walk {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
