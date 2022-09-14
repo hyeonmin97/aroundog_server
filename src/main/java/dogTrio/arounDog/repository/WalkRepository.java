@@ -27,5 +27,11 @@ public class WalkRepository {
     }
 
 
+    public List<Walk> orderByGood(int start, int size) {
+        return em.createQuery("select w from Walk w order by w.good desc", Walk.class)
+                .setFirstResult(start)
+                .setMaxResults(size)
+                .getResultList();
+    }
 
 }

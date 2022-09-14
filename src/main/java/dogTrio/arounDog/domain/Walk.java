@@ -48,4 +48,12 @@ public class Walk {
         this.startTime = startTime;
         this.endTime = endTime;
     }
+
+    public void clickButton(String button) {
+        if ("good".equals(button)) {
+            this.good += 1;
+        } else {
+            this.bad += 1;
+        }
+    }
 }
