@@ -33,4 +33,14 @@ public class LoginDto {
         this.gender = user.getGender();
         this.success = success;
     }
+
+    public LoginDto() {
+
+    }
+
+    public static LoginDto loginFalse() {
+        LoginDto loginDto = new LoginDto();
+        loginDto.success = false;
+        return loginDto;
+    }
 }

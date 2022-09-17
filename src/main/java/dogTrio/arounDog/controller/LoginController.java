@@ -26,11 +26,13 @@ public class LoginController {
     @GetMapping("/login")
     public LoginDto login(@Valid @RequestParam String userId, @Valid @RequestParam String password) {
         Optional<User> user = userRepository.findByUserId(userId);
-        User findUser = user.get();
-        if (findUser.getPassword().equals(password)) {
-            return new LoginDto(findUser, true);
+        if (user.isPresent()) {
+            User findUser = user.get();
+            if (findUser.getPassword().equals(password)) {
+                return new LoginDto(findUser, true);
+            }
         }
-        return new LoginDto(findUser, false);
+        return LoginDto.loginFalse();
     }
 
     @GetMapping("/login/idValidate")
