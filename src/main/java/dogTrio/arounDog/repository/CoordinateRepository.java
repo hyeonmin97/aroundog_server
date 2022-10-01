@@ -38,10 +38,10 @@ public class CoordinateRepository {
 
     @Transactional
     public List<Object[]> findTileAndDog(String tile) {
-        return em.createQuery("select c,  d from Coordinate c, UserDog d " +
-                        "where c.tile = :tile " +
-                        "and c.walking = :boolean " +
-                        "and c.user = d.user")
+        return em.createQuery("select c, d from Coordinate c, UserDog d join fetch d.dog join fetch c.user " +
+                "where c.user = d.user " +
+                "and c.tile=:tile " +
+                "and c.walking = :boolean")
                 .setParameter("tile", tile)
                 .setParameter("boolean", true)
                 .getResultList();
