@@ -18,11 +18,11 @@ public class UserDog {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "dog_id")
+    @JoinColumn(name = "dog")
     private Dog dog;
 
     private String name;

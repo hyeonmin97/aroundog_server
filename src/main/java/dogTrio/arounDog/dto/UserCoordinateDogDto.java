@@ -30,10 +30,10 @@ public class UserCoordinateDogDto {
 
 
     public UserCoordinateDogDto(Coordinate coordinate, UserDog userDog) {
-        this.userId = coordinate.getUserId().getUserId();
-        this.userName = coordinate.getUserId().getUserName();
-        this.userAge = coordinate.getUserId().getAge();
-        this.userImage = coordinate.getUserId().getImage();
+        this.userId = coordinate.getUser().getUserId();
+        this.userName = coordinate.getUser().getUserName();
+        this.userAge = coordinate.getUser().getAge();
+        this.userImage = coordinate.getUser().getImage();
         this.latitude = coordinate.getLatitude();
         this.longitude = coordinate.getLongitude();
         this.dogId = userDog.getId();

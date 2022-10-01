@@ -33,7 +33,7 @@ public class UserRepository {
         return members.stream().findAny();
     }
     public List<Walk> userWalkList(Long id) {
-        return em.createQuery("select w from Walk w where w.userId = :id", Walk.class).setParameter("id", id).getResultList();
+        return em.createQuery("select w from Walk w where w.id = :id", Walk.class).setParameter("id", id).getResultList();
     }
 
     public List<User> findByPhone(String phone) {

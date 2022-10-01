@@ -21,7 +21,7 @@ public class CoordinateRepository {
     }
 
     public Optional<Coordinate> findOne(User user) {
-        List<Coordinate> coordinates = em.createQuery("select c from Coordinate c where c.userId = :userId", Coordinate.class).setParameter("userId", user).getResultList();
+        List<Coordinate> coordinates = em.createQuery("select c from Coordinate c where c.user = :user", Coordinate.class).setParameter("user", user).getResultList();
         return coordinates.stream().findAny();
         //        return em.find(Coordinate.class, user.getId());
     }
@@ -41,7 +41,7 @@ public class CoordinateRepository {
         return em.createQuery("select c,  d from Coordinate c, UserDog d " +
                         "where c.tile = :tile " +
                         "and c.walking = :boolean " +
-                        "and c.userId = d.user")
+                        "and c.user = d.user")
                 .setParameter("tile", tile)
                 .setParameter("boolean", true)
                 .getResultList();

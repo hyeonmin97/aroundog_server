@@ -77,7 +77,7 @@ public class WalkController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            walkListDtos.add(new WalkListDto(walk.getId(), walk.getUserId().getUserId(), walk.getCourseCenter(), walk.getGood(), walk.getBad(), byteImg, walk.getStartTime(), walk.getEndTime()));
+            walkListDtos.add(new WalkListDto(walk.getId(), walk.getUser().getUserId(), walk.getCourseCenter(), walk.getGood(), walk.getBad(), byteImg, walk.getStartTime(), walk.getEndTime()));
         }
         return walkListDtos;
     }

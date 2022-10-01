@@ -17,8 +17,8 @@ public class Walk {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User userId;
+    @JoinColumn(name = "user")
+    private User user;
 
     @Lob
     private String course;
@@ -35,11 +35,11 @@ public class Walk {
     }
 
     public void setUser(User user) {
-        this.userId = user;
+        this.user = user;
     }
 
-    public Walk(User userId, String course, String courseCenter, int good, int bad, String img, LocalDateTime startTime, LocalDateTime endTime) {
-        this.userId = userId;
+    public Walk(User user, String course, String courseCenter, int good, int bad, String img, LocalDateTime startTime, LocalDateTime endTime) {
+        this.user = user;
         this.course = course;
         this.courseCenter = courseCenter;
         this.good = good;
