@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class Coordinate implements Serializable {
 
     @Id
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User userId;
 
