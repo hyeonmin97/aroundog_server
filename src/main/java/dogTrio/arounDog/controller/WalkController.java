@@ -1,6 +1,5 @@
 package dogTrio.arounDog.controller;
 
-import dogTrio.arounDog.domain.User;
 import dogTrio.arounDog.domain.Walk;
 import dogTrio.arounDog.dto.WalkButtonDto;
 import dogTrio.arounDog.dto.WalkDto;
@@ -11,7 +10,6 @@ import dogTrio.arounDog.service.WalkService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -45,7 +43,12 @@ public class WalkController {
 
     @PostMapping("/walk/{userId}/add")//산책 추가
     public void addWalk(@PathVariable String userId, @ModelAttribute WalkMultipartDto dto) throws IOException {
-        String path = "C:/Image/" + dto.getStartTime().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")) + "#" + userId+".jpg";
+//        //pc
+        String path = "C:/Image/" + dto.getStartTime().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")) + "#" + userId + ".jpg";
+
+        //raspberryPi
+//        String path = "/home/pi/arounDog/" + dto.getStartTime().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")) + "#" + userId+".jpg";
+
         File temp = new File(path);
         dto.getImage().transferTo(temp);
         WalkDto walkDto = dto.makeWalkDto();
@@ -81,6 +84,13 @@ public class WalkController {
         }
         return walkListDtos;
     }
+
+//
+//    //주변 산책로 거리순
+//    @GetMapping("/walk/distance")
+//    public List<WalkDto> walkListOrderByDistance(@RequestParam Double latitude, @RequestParam Double longitude) {
+//
+//    }
 
     //산책리스트 좋아요/싫어요 버튼 클릭
     @PostMapping("/walk/button")
