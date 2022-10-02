@@ -1,19 +1,13 @@
 package dogTrio.arounDog.controller;
 
 import dogTrio.arounDog.domain.Walk;
-import dogTrio.arounDog.dto.WalkButtonDto;
-import dogTrio.arounDog.dto.WalkDto;
-import dogTrio.arounDog.dto.WalkListDto;
-import dogTrio.arounDog.dto.WalkMultipartDto;
+import dogTrio.arounDog.dto.*;
 import dogTrio.arounDog.service.UserService;
 import dogTrio.arounDog.service.WalkService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
@@ -55,42 +49,14 @@ public class WalkController {
         walkService.addWalk(userId, walkDto, path);
     }
 
-    //주변 산책로 추천순
+    //사용자 근처 산책로 추천순
     @GetMapping("/walk/good")
-    public List<WalkListDto> walkListOrderByGood(@RequestParam int start, @RequestParam int size) {
-        ArrayList<WalkListDto> walkListDtos = new ArrayList<WalkListDto>();
-        List<Walk> walkListOrderedByGood = walkService.getWalkListOrderedByGood(start, size);
-        for (Walk walk : walkListOrderedByGood) {
-            //파일 가져오기
-            BufferedImage img;
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            try {
-                File file = new File(walk.getImg());
-                if (file.exists()) {
-                    img = ImageIO.read(file);
-                    ImageIO.write(img, "jpg", bos);
-                    bos.flush();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            byte[] byteImg = bos.toByteArray();
-            try {
-                bos.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            walkListDtos.add(new WalkListDto(walk.getId(), walk.getUser().getUserId(), walk.getCourseCenter(), walk.getGood(), walk.getBad(), byteImg, walk.getStartTime(), walk.getEndTime()));
-        }
-        return walkListDtos;
+    public List<WalkWithGoodBad> walkListOrderByGood(@RequestParam String userId, @RequestParam String tile, @RequestParam int start, @RequestParam int size) {
+
+        return walkService.walkListOrderedByGood(userId, tile, start, size);
+
     }
 
-//
-//    //주변 산책로 거리순
-//    @GetMapping("/walk/distance")
-//    public List<WalkDto> walkListOrderByDistance(@RequestParam Double latitude, @RequestParam Double longitude) {
-//
-//    }
 
     //산책리스트 좋아요/싫어요 버튼 클릭
     @PostMapping("/walk/button")

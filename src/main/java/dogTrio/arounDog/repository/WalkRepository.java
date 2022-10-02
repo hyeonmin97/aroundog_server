@@ -1,6 +1,5 @@
 package dogTrio.arounDog.repository;
 
-import dogTrio.arounDog.domain.User;
 import dogTrio.arounDog.domain.Walk;
 import dogTrio.arounDog.dto.WalkDto;
 import lombok.RequiredArgsConstructor;
@@ -33,5 +32,25 @@ public class WalkRepository {
                 .setMaxResults(size)
                 .getResultList();
     }
+
+    public List<Object[]> findWithTile(Long userId, List<String> tiles, int start, int size) {
+        return em.createQuery(
+                        "select w, g, b " +
+                                "from Walk w " +
+                                "join fetch w.user " +
+                                "left join Good g " +
+                                "on g.walk = w " +
+                                "and g.user.id = :user " +
+                                "left join Bad b " +
+                                "on b.walk = w " +
+                                "and b.user.id = :user " +
+                                "where w.tile in :tiles " +
+                                "order by w.good desc, w.bad desc")
+                .setParameter("user", userId)
+                .setParameter("tiles", tiles)
+                .setFirstResult(start)
+                .setMaxResults(size)
+                .getResultList();
+           }
 
 }

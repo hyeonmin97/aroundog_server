@@ -25,19 +25,22 @@ public class WalkDto {
     @DateTimeFormat(pattern = "yyyyMMddHHmmss")
     private LocalDateTime endTime;
 
+    private String tile;
+
     public WalkDto() {
 
     }
 
-    public WalkDto(String course, String courseCenter, LocalDateTime startTime, LocalDateTime endTime) {
+    public WalkDto(String course, String courseCenter, LocalDateTime startTime, LocalDateTime endTime, String tile) {
         this.course = course;
         this.courseCenter = courseCenter;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.tile = tile;
     }
 
-    public static WalkDto makeWalkDto(String course, String courseCenter, LocalDateTime startTime, LocalDateTime endTim) {
-        WalkDto walkDto = new WalkDto(course, courseCenter, startTime, endTim);
+    public static WalkDto makeWalkDto(String course, String courseCenter, LocalDateTime startTime, LocalDateTime endTim, String tile) {
+        WalkDto walkDto = new WalkDto(course, courseCenter, startTime, endTim, tile);
         return walkDto;
     }
 
@@ -47,6 +50,6 @@ public class WalkDto {
     }
 
     public Walk makeEntity() {
-        return new Walk(user, course, courseCenter, 0, 0, img, startTime, endTime);
+        return new Walk(user, course, courseCenter, 0, 0, img, startTime, endTime, tile);
     }
 }

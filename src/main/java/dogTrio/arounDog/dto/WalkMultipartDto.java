@@ -25,8 +25,10 @@ public class WalkMultipartDto {
 
     private MultipartFile image;
 
+    private String tile;
+
     public WalkDto makeWalkDto() {
-        WalkDto walkDto = WalkDto.makeWalkDto(course, courseCenter, startTime, endTime);
+        WalkDto walkDto = WalkDto.makeWalkDto(course, courseCenter, startTime, endTime, tile);
         return walkDto;
     }
 }

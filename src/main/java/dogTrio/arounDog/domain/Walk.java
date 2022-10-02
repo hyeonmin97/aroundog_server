@@ -1,5 +1,6 @@
 package dogTrio.arounDog.domain;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +28,8 @@ public class Walk {
     private int bad;
     private String img;
 
+    private String tile;
+
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 
@@ -38,7 +41,7 @@ public class Walk {
         this.user = user;
     }
 
-    public Walk(User user, String course, String courseCenter, int good, int bad, String img, LocalDateTime startTime, LocalDateTime endTime) {
+    public Walk(User user, String course, String courseCenter, int good, int bad, String img, LocalDateTime startTime, LocalDateTime endTime, String tile) {
         this.user = user;
         this.course = course;
         this.courseCenter = courseCenter;
@@ -47,13 +50,14 @@ public class Walk {
         this.img = img;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.tile = tile;
     }
 
     public void clickButton(String button) {
         if ("good".equals(button)) {
             this.good += 1;
         } else {
-            this.bad += 1;
+            this.bad -= 1;
         }
     }
 }
