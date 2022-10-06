@@ -39,4 +39,9 @@ public class UserRepository {
     public List<User> findByPhone(String phone) {
         return em.createQuery("select u from User u where u.phone = :phone", User.class).setParameter("phone", phone).getResultList();
     }
+
+    public Optional<User> findByEmail(String email) {
+        List<User> user = em.createQuery("select u from User u where u.email = :email", User.class).setParameter("email", email).getResultList();
+        return user.stream().findAny();
+    }
 }
