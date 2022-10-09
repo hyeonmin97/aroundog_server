@@ -44,4 +44,8 @@ public class UserRepository {
         List<User> user = em.createQuery("select u from User u where u.email = :email", User.class).setParameter("email", email).getResultList();
         return user.stream().findAny();
     }
+
+    public List<Object[]> findUserAndDog(String userId) {
+        return em.createQuery("select u, d from User u , UserDog d join fetch d.dog where u.userId=:userId and d.user = u").setParameter("userId", userId).getResultList();
+    }
 }
