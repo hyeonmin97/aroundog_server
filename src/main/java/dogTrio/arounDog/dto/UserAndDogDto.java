@@ -37,8 +37,13 @@ public class UserAndDogDto {
     private Gender dogGender;
     private Long breed;
 
+    private List<ImgDto> dogImgList = new ArrayList();
+
     private Boolean success;
 
+    public void addImgs(List<ImgDto> list){
+        this.dogImgList.addAll(list);
+    }
     public UserAndDogDto(Boolean success) {
         this.success = success;
     }

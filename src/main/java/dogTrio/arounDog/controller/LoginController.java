@@ -2,9 +2,12 @@ package dogTrio.arounDog.controller;
 
 import dogTrio.arounDog.domain.User;
 import dogTrio.arounDog.domain.UserDog;
+import dogTrio.arounDog.dto.ImgDto;
 import dogTrio.arounDog.dto.LoginDto;
 import dogTrio.arounDog.dto.UserAndDogDto;
+import dogTrio.arounDog.repository.DogImgRepository;
 import dogTrio.arounDog.repository.UserRepository;
+import dogTrio.arounDog.service.DogImgService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -25,6 +28,7 @@ import java.util.Optional;
 public class LoginController {
 
     private final UserRepository userRepository;
+    private final DogImgService dogImgService;
 
 
     @GetMapping("/login")
@@ -36,7 +40,9 @@ public class LoginController {
                 User user = (User) objects[0];
                 UserDog userDog = (UserDog) objects[1];
                 if (password.equals(user.getPassword())) {//비밀번호 같으면
+                    List<ImgDto> imgList = dogImgService.getImgList(userDog.getId());//강아지의 이미지들 추가
                     UserAndDogDto userAndDogDto = new UserAndDogDto(user, userDog, true);
+                    userAndDogDto.addImgs(imgList);
                     result.add(userAndDogDto);
                 } else {
                     break;
