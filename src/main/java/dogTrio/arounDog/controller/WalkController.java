@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,5 +63,11 @@ public class WalkController {
     @PostMapping("/walk/button")
     public void clickButton(WalkButtonDto walkButtonDto) {
         walkService.clickButton(walkButtonDto);
+    }
+
+    @GetMapping("/walk/week")
+    public WalkWeekDto week(@RequestParam String userId) {
+        WalkWeekDto walkWeekDto = walkService.walkWeekData(userId);
+        return walkWeekDto;
     }
 }

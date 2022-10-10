@@ -3,6 +3,7 @@ package dogTrio.arounDog.service;
 import dogTrio.arounDog.domain.*;
 import dogTrio.arounDog.dto.WalkButtonDto;
 import dogTrio.arounDog.dto.WalkDto;
+import dogTrio.arounDog.dto.WalkWeekDto;
 import dogTrio.arounDog.dto.WalkWithGoodBad;
 import dogTrio.arounDog.repository.GoodBadRepository;
 import dogTrio.arounDog.repository.UserRepository;
@@ -16,6 +17,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -76,6 +78,13 @@ public class WalkService {
             findWalk.clickButton("bad");
         }
         goodBadRepository.save(button);
+    }
+
+    public WalkWeekDto walkWeekData(String userId){
+        LocalDateTime now = LocalDateTime.now().withHour(23).withMinute(59).withSecond(59).withNano(999999999);//오늘의 마지막 시간
+        LocalDateTime past = now.minusDays(7).withHour(0).withMinute(0).withSecond(0).withNano(0);//7일 전 날짜는 시간에 상관없이 같은 날짜면 다 불러올수 있도록 시간, 분 초기화
+        List<WalkWeekDto> weekData = walkRepository.findWeekData(userId, past, now);
+        return weekData.get(0);
     }
 
     private static byte[] getImg(Walk findWalk) {

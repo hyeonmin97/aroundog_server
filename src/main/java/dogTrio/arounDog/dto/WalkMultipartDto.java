@@ -27,8 +27,12 @@ public class WalkMultipartDto {
 
     private String tile;
 
+    private Long second;
+
+    private Long distance;
+
     public WalkDto makeWalkDto() {
-        WalkDto walkDto = WalkDto.makeWalkDto(course, courseCenter, startTime, endTime, tile);
+        WalkDto walkDto = WalkDto.makeWalkDto(course, courseCenter, startTime, endTime, tile, second, distance);
         return walkDto;
     }
 }

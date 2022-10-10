@@ -2,10 +2,13 @@ package dogTrio.arounDog.repository;
 
 import dogTrio.arounDog.domain.Walk;
 import dogTrio.arounDog.dto.WalkDto;
+import dogTrio.arounDog.dto.WalkWeekDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -53,4 +56,9 @@ public class WalkRepository {
                 .getResultList();
            }
 
+    public List<WalkWeekDto> findWeekData(String userId, LocalDateTime startDate, LocalDateTime endDate) {
+        return em.createQuery("select new dogTrio.arounDog.dto.WalkWeekDto(sum(w.second), sum(w.distance), count(w)) from Walk w left join w.user u where  w.user.userId = :userId and w.endTime between :startDate and :endDate", WalkWeekDto.class)
+                .setParameter("userId", userId).setParameter("startDate", startDate).setParameter("endDate", endDate)
+                .getResultList();
+    }
 }

@@ -27,20 +27,25 @@ public class WalkDto {
 
     private String tile;
 
+    private Long second;
+
+    private Long distance;
     public WalkDto() {
 
     }
 
-    public WalkDto(String course, String courseCenter, LocalDateTime startTime, LocalDateTime endTime, String tile) {
+    public WalkDto(String course, String courseCenter, LocalDateTime startTime, LocalDateTime endTime, String tile, Long second, Long distance) {
         this.course = course;
         this.courseCenter = courseCenter;
         this.startTime = startTime;
         this.endTime = endTime;
         this.tile = tile;
+        this.second = second;
+        this.distance = distance;
     }
 
-    public static WalkDto makeWalkDto(String course, String courseCenter, LocalDateTime startTime, LocalDateTime endTim, String tile) {
-        WalkDto walkDto = new WalkDto(course, courseCenter, startTime, endTim, tile);
+    public static WalkDto makeWalkDto(String course, String courseCenter, LocalDateTime startTime, LocalDateTime endTim, String tile, Long second, Long distance) {
+        WalkDto walkDto = new WalkDto(course, courseCenter, startTime, endTim, tile, second, distance);
         return walkDto;
     }
 
@@ -50,6 +55,6 @@ public class WalkDto {
     }
 
     public Walk makeEntity() {
-        return new Walk(user, course, courseCenter, 0, 0, img, startTime, endTime, tile);
+        return new Walk(user, course, courseCenter, 0, 0, img, startTime, endTime, tile, second, distance);
     }
 }
