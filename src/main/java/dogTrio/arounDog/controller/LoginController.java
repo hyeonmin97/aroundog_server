@@ -45,9 +45,8 @@ public class LoginController {
                     userAndDogDto.addImgs(imgList);
                     result.add(userAndDogDto);
                 } else {
-                    break;
+                    return UserAndDogDto.loginFail();
                 }
-
             }
             return result;
         }
