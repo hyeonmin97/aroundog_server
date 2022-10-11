@@ -19,6 +19,6 @@ public class UserDogRepository {
     }
 
     public List<UserDog> findByUserId(User user) {
-        return em.createQuery("select u from UserDog u where u.user =:user", UserDog.class).setParameter("user", user).getResultList();
+        return em.createQuery("select u from UserDog u join fetch u.dog where u.user =:user", UserDog.class).setParameter("user", user).getResultList();
     }
 }

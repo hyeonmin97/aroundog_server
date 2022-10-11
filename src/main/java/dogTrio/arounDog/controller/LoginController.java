@@ -6,11 +6,13 @@ import dogTrio.arounDog.dto.ImgDto;
 import dogTrio.arounDog.dto.LoginDto;
 import dogTrio.arounDog.dto.UserAndDogDto;
 import dogTrio.arounDog.repository.DogImgRepository;
+import dogTrio.arounDog.repository.UserDogRepository;
 import dogTrio.arounDog.repository.UserRepository;
 import dogTrio.arounDog.service.DogImgService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,31 +27,39 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@Transactional(readOnly = true)
 public class LoginController {
 
-    private final UserRepository userRepository;
+    private final UserRepository userRepository; //간단한 작업이라 비스에 추가하지 않음
     private final DogImgService dogImgService;
-
+    private final UserDogRepository userDogRepository; //간단한 작업이라 서비스 추가하지 않음
 
     @GetMapping("/login")
+
     public List<UserAndDogDto> login(@Valid @RequestParam String userId, @Valid @RequestParam String password) {
         List<UserAndDogDto> result = new ArrayList<>();
-        List<Object[]> findUserAndDog = userRepository.findUserAndDog(userId);
-        if (findUserAndDog.size() > 0) {//유저를 찾으면
-            for (Object[] objects : findUserAndDog) {
-                User user = (User) objects[0];
-                UserDog userDog = (UserDog) objects[1];
-                if (password.equals(user.getPassword())) {//비밀번호 같으면
-                    List<ImgDto> imgList = dogImgService.getImgList(userDog.getId());//강아지의 이미지들 추가
-                    UserAndDogDto userAndDogDto = new UserAndDogDto(user, userDog, true);
-                    userAndDogDto.addImgs(imgList);
+
+        Optional<User> findUser = userRepository.findByUserId(userId);
+        if (findUser.isPresent()) {
+            if(findUser.get().getPassword().equals(password)) {//비밀번호 일치
+                //강아지 찾기
+                List<UserDog> findUserDogList = userDogRepository.findByUserId(findUser.get());
+
+                if (findUserDogList.isEmpty()) {//강아지가 없을때
+                    UserAndDogDto userAndDogDto = new UserAndDogDto(findUser.get(), true);
                     result.add(userAndDogDto);
-                } else {
-                    return UserAndDogDto.loginFail();
+                } else {//강아지가 있을때
+                    for (UserDog userDog : findUserDogList) {
+                        List<ImgDto> imgList = dogImgService.getImgList(userDog.getId());
+                        UserAndDogDto userAndDogDto = new UserAndDogDto(findUser.get(), userDog, true);
+                        userAndDogDto.addImgs(imgList);
+                        result.add(userAndDogDto);
+                    }
                 }
+                return result;
             }
-            return result;
         }
+        //findUser 없을때, 비밀번호 일치하지 않을때
         return UserAndDogDto.loginFail();
     }
 

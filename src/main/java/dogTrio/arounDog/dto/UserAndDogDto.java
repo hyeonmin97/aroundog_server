@@ -47,7 +47,10 @@ public class UserAndDogDto {
     public UserAndDogDto(Boolean success) {
         this.success = success;
     }
-
+    public UserAndDogDto(User user, Boolean success) {
+        setUser(user);
+        this.success = success;
+    }
     public UserAndDogDto(User user, UserDog userDog, Boolean success) {
         setUser(user);
         setUserDog(userDog);
