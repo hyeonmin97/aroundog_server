@@ -25,4 +25,9 @@ public class DogController {
 //    public List<UserDogDto> findUserDog(@RequestParam String userId) {
 //
 //    }
+
+    @DeleteMapping("/dog/{dogId}")
+    public Boolean deleteDogImg(@PathVariable("dogId") Long dogId) {
+        return dogImgService.deleteDogImgById(dogId);
+    }
 }

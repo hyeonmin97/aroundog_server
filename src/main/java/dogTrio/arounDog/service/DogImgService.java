@@ -23,6 +23,11 @@ public class DogImgService {
 
     private final DogImgRepository dogImgRepository;
 
+    @Transactional
+    public boolean deleteDogImgById(Long dogId) {
+        DogImg dogImg = dogImgRepository.findDogImg(dogId);
+        return dogImgRepository.delete(dogImg);
+    }
 
     public List<ImgDto> getImgList(Long dogId) {
         List<ImgDto> imgList = new ArrayList<>();
