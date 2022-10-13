@@ -15,6 +15,7 @@ import java.util.List;
 public class DogController {
 
     private final DogService dogService;
+    private final DogImgService dogImgService;
 
     @PostMapping("/dog")
     public Boolean addDog(UserDogDto userDogDto) {
@@ -29,5 +30,10 @@ public class DogController {
     @DeleteMapping("/dog/{dogId}")
     public Boolean deleteDogImg(@PathVariable("dogId") Long dogId) {
         return dogImgService.deleteDogImgById(dogId);
+    }
+
+    @DeleteMapping("/dog/{dogImgId}")
+    public Boolean deleteDogImg(@PathVariable("dogImgId") Long dogImgId) {
+        return dogImgService.deleteDogImgById(dogImgId);
     }
 }

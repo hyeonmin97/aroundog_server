@@ -24,8 +24,8 @@ public class DogImgService {
     private final DogImgRepository dogImgRepository;
 
     @Transactional
-    public boolean deleteDogImgById(Long dogId) {
-        DogImg dogImg = dogImgRepository.findDogImg(dogId);
+    public boolean deleteDogImgById(Long dogImgId) {
+        DogImg dogImg = dogImgRepository.findDogImg(dogImgId);
         return dogImgRepository.delete(dogImg);
     }
 
