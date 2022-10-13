@@ -1,5 +1,6 @@
 package dogTrio.arounDog.repository;
 
+import dogTrio.arounDog.domain.Dog;
 import dogTrio.arounDog.domain.User;
 import dogTrio.arounDog.domain.UserDog;
 import lombok.RequiredArgsConstructor;
@@ -20,5 +21,12 @@ public class UserDogRepository {
 
     public List<UserDog> findByUserId(User user) {
         return em.createQuery("select u from UserDog u join fetch u.dog where u.user =:user", UserDog.class).setParameter("user", user).getResultList();
+    }
+
+    public UserDog find(Long dogId) {
+        return em.find(UserDog.class, dogId);
+    }
+    public void remove(UserDog dog) {
+        em.remove(dog);
     }
 }

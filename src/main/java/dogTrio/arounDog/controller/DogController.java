@@ -32,8 +32,14 @@ public class DogController {
         return dogImgService.deleteDogImgById(dogId);
     }
 
-    @DeleteMapping("/dog/{dogImgId}")
+    @DeleteMapping("/dogImg/{dogImgId}")
     public Boolean deleteDogImg(@PathVariable("dogImgId") Long dogImgId) {
         return dogImgService.deleteDogImgById(dogImgId);
     }
+
+    @DeleteMapping("/dog/{dogId}")
+    public Boolean deleteDog(@PathVariable("dogId") Long dogId) {
+        return dogService.deleteDog(dogId);
+    }
+
 }

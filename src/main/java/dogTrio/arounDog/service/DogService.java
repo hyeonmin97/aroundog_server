@@ -36,4 +36,15 @@ public class DogService {
         }
         return false;
     }
+
+    @Transactional
+    public Boolean deleteDog(Long dogId) {
+        UserDog findUserDog = userDogRepository.find(dogId);
+        userDogRepository.remove(findUserDog);
+        UserDog dog = userDogRepository.find(dogId);
+        if (dog == null) {
+            return true;
+        }
+        return false;
+    }
 }
