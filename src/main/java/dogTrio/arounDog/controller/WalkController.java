@@ -6,6 +6,7 @@ import dogTrio.arounDog.service.UserService;
 import dogTrio.arounDog.service.WalkService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
@@ -23,6 +24,8 @@ public class WalkController {
     private final UserService userService;
     private final WalkService walkService;
 
+    @Value("${basePath}")
+    String basePath;
     @GetMapping("/walk/{userId}") //사용자의 전체 산책 기록
     public List<Walk> userWalkList(@PathVariable Long userId) {
         List<Walk> walks = userService.userWalkList(userId);
@@ -38,11 +41,7 @@ public class WalkController {
 
     @PostMapping("/walk/{userId}/add")//산책 추가
     public void addWalk(@PathVariable String userId, @ModelAttribute WalkMultipartDto dto) throws IOException {
-//        //pc
-        String path = "C:/Image/" + dto.getStartTime().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")) + "#" + userId + ".jpg";
-
-        //raspberryPi
-//        String path = "/home/pi/arounDog/" + dto.getStartTime().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")) + "#" + userId+".jpg";
+        String path = basePath + dto.getStartTime().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")) + "#" + userId + ".jpg";
 
         File temp = new File(path);
         dto.getImage().transferTo(temp);
