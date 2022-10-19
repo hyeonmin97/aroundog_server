@@ -24,17 +24,17 @@ public class DogService {
     private final UserDogRepository userDogRepository;
 
     @Transactional
-    public Boolean addDog(UserDogDto userDogDto) {
+    public Long addDog(UserDogDto userDogDto) {
         Optional<User> findUser = userRepository.findByUserId(userDogDto.getUserId());
         if (findUser.isPresent()) {
             Dog dog = dogRepository.find(userDogDto.getDogId());
             if (dog != null) {
                 UserDog userDog = new UserDog(findUser.get(), dog, userDogDto);
                 userDogRepository.save(userDog);
-                return true;
+                return userDog.getId();
             }
         }
-        return false;
+        return -100L;
     }
 
     @Transactional

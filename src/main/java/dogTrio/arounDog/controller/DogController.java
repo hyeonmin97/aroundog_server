@@ -1,13 +1,20 @@
 package dogTrio.arounDog.controller;
 
+import dogTrio.arounDog.domain.DogImg;
+import dogTrio.arounDog.dto.ImgDto;
 import dogTrio.arounDog.dto.UserDogDto;
+import dogTrio.arounDog.repository.DogImgRepository;
+import dogTrio.arounDog.service.DogImgService;
 import dogTrio.arounDog.service.DogService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,7 +25,7 @@ public class DogController {
     private final DogImgService dogImgService;
 
     @PostMapping("/dog")
-    public Boolean addDog(UserDogDto userDogDto) {
+    public Long addDog(UserDogDto userDogDto) {
         return dogService.addDog(userDogDto);
     }
 
