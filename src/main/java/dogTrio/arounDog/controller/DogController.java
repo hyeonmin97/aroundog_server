@@ -2,6 +2,7 @@ package dogTrio.arounDog.controller;
 
 import dogTrio.arounDog.domain.DogImg;
 import dogTrio.arounDog.dto.ImgDto;
+import dogTrio.arounDog.dto.UpdateDogImageDto;
 import dogTrio.arounDog.dto.UserDogDto;
 import dogTrio.arounDog.repository.DogImgRepository;
 import dogTrio.arounDog.service.DogImgService;
@@ -10,6 +11,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -34,6 +36,10 @@ public class DogController {
 //
 //    }
 
+
+    @PostMapping("/dogImg/{dogId}")
+    public UpdateDogImageDto updateDogImage(@PathVariable("dogId") Long dogId, MultipartFile image) {
+        return dogImgService.updateDogImage(dogId, image);
     }
 
     @DeleteMapping("/dogImg/{dogImgId}")

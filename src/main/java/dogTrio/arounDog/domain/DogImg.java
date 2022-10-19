@@ -23,5 +23,10 @@ public class DogImg {
     private UserDog userDog;
 
     private String path;
+
+    public DogImg(UserDog userDog, String path) {
+        this.userDog = userDog;
+        this.path = path;
+    }
 }
 

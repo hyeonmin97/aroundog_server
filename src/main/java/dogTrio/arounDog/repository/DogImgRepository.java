@@ -12,6 +12,10 @@ import java.util.List;
 public class DogImgRepository {
     private final EntityManager em;
 
+    public void save(DogImg dogImg) {
+        em.persist(dogImg);
+    }
+
     public List<DogImg> findDogImgs(Long id) {
         return em.createQuery("select d from DogImg d join fetch d.userDog where d.userDog.id = :id").setParameter("id", id).getResultList();
     }
