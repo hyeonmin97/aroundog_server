@@ -21,6 +21,7 @@ public class User implements Serializable {
     private int image;
     private String userName;
     private String phone;
+    @Column(unique = true)
     private String email;
 
     @Enumerated(EnumType.STRING)
