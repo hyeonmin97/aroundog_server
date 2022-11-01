@@ -26,6 +26,10 @@ public class UserDogRepository {
     public UserDog find(Long dogId) {
         return em.find(UserDog.class, dogId);
     }
+
+    public List<UserDog> findWithDog(Long dogId) {
+        return em.createQuery("select u from UserDog u join fetch u.dog where u.id = :dogId", UserDog.class).setParameter("dogId", dogId).getResultList();
+    }
     public void remove(UserDog dog) {
         em.remove(dog);
     }

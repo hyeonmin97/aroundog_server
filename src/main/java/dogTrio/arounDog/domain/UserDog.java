@@ -1,6 +1,7 @@
 package dogTrio.arounDog.domain;
 
 import dogTrio.arounDog.dto.UserDogDto;
+import dogTrio.arounDog.dto.UserDogWithBreedDto;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,6 +44,20 @@ public class UserDog {
         this.gender = userDogDto.getGender();
     }
 
+    public void updateData(UserDogWithBreedDto userDogWithBreedDto, Dog updateBreed) {
+        if(!this.name.equals(userDogWithBreedDto.getName()))
+            this.name = userDogWithBreedDto.getName();
+        if (this.age != userDogWithBreedDto.getAge())
+            this.age = userDogWithBreedDto.getAge();
+        if (this.height!= userDogWithBreedDto.getHeight())
+            this.height = userDogWithBreedDto.getHeight();
+        if (this.weight!= userDogWithBreedDto.getWeight())
+            this.weight = userDogWithBreedDto.getWeight();
+        if (!this.gender.equals(userDogWithBreedDto.getGender()))
+            this.gender = userDogWithBreedDto.getGender();
+        if (!this.dog.equals(updateBreed))
+            this.dog = updateBreed;
 
+    }
 
 }

@@ -4,6 +4,7 @@ import dogTrio.arounDog.domain.Dog;
 import dogTrio.arounDog.domain.User;
 import dogTrio.arounDog.domain.UserDog;
 import dogTrio.arounDog.dto.UserDogDto;
+import dogTrio.arounDog.dto.UserDogWithBreedDto;
 import dogTrio.arounDog.dto.UserDto;
 import dogTrio.arounDog.repository.DogRepository;
 import dogTrio.arounDog.repository.UserDogRepository;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -46,5 +48,20 @@ public class DogService {
             return true;
         }
         return false;
+    }
+
+    @Transactional
+    public boolean updateDogInfo(Long id, UserDogWithBreedDto userDogWithBreedDto) {
+        try {
+            List<UserDog> findUserDogList = userDogRepository.findWithDog(id);//기존 데이터
+            for (UserDog userDog : findUserDogList) {
+                Dog updateBreed = dogRepository.find(userDogWithBreedDto.getBreed());//변경된 종
+                userDog.updateData(userDogWithBreedDto, updateBreed);
+            }
+
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

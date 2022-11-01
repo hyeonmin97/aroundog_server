@@ -4,6 +4,7 @@ import dogTrio.arounDog.domain.DogImg;
 import dogTrio.arounDog.dto.ImgDto;
 import dogTrio.arounDog.dto.UpdateDogImageDto;
 import dogTrio.arounDog.dto.UserDogDto;
+import dogTrio.arounDog.dto.UserDogWithBreedDto;
 import dogTrio.arounDog.repository.DogImgRepository;
 import dogTrio.arounDog.service.DogImgService;
 import dogTrio.arounDog.service.DogService;
@@ -29,6 +30,11 @@ public class DogController {
     @PostMapping("/dog")
     public Long addDog(UserDogDto userDogDto) {
         return dogService.addDog(userDogDto);
+    }
+
+    @PatchMapping("/dog/{dogId}")
+    public boolean findDog(@PathVariable Long dogId, UserDogWithBreedDto userDogWithBreedDto) {
+        return dogService.updateDogInfo(dogId, userDogWithBreedDto);
     }
 
 //    @GetMapping("/dog")
