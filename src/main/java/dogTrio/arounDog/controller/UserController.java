@@ -42,6 +42,12 @@ public class UserController {
         return false;
     }
 
+    //유저 정보 수정
+    @PatchMapping("/user/{userId}")
+    public Boolean updateUser(@PathVariable String userId, UserDto userDto) {
+        return userService.updateUser(userId, userDto);
+    }
+
     //아이디찾기
     private final JavaMailSender javaMailSender;
 

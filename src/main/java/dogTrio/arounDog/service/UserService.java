@@ -45,4 +45,17 @@ public class UserService {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
     }
+    @Transactional
+    public boolean updateUser(String userId, UserDto userDto) {
+        try {
+            Optional<User> findUser = userRepository.findByUserId(userId);
+            if (findUser.isPresent()) {
+                findUser.get().updateUser(userDto);
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

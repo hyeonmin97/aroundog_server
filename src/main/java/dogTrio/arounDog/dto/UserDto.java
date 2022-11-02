@@ -2,6 +2,7 @@ package dogTrio.arounDog.dto;
 
 import dogTrio.arounDog.domain.Gender;
 import dogTrio.arounDog.domain.User;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +10,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
 @Getter @Setter
+@AllArgsConstructor
 public class UserDto {
     private String userId;
     private String password;
