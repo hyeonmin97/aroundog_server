@@ -1,7 +1,6 @@
 package dogTrio.arounDog.domain;
 
 public enum DogBreed {
-    DOGLENGTH,
     HUSKY,
     SAMOYED,
     RETRIEVER,
