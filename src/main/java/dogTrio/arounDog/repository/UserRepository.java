@@ -48,4 +48,8 @@ public class UserRepository {
     public List<Object[]> findUserAndDog(String userId) {
         return em.createQuery("select u, d from User u , UserDog d join fetch d.dog where u.userId=:userId and d.user = u").setParameter("userId", userId).getResultList();
     }
+
+    public List<String> findHateDog(String id) {
+        return em.createQuery("select u.hateDog from User u where u.userId = :userId").setParameter("userId", id).getResultList();
+    }
 }

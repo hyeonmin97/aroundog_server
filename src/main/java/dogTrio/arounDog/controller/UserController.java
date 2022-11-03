@@ -48,6 +48,18 @@ public class UserController {
         return userService.updateUser(userId, userDto);
     }
 
+    //기피 강아지 종 확인
+    @GetMapping("/hate/{userId}")
+    public String getHateDog(@PathVariable String userId) {
+        return userService.getHateDog(userId);
+    }
+
+    //기피 강아지 종 설정
+    @PostMapping("/hate/{userId}")
+    public Boolean setHateDog(@PathVariable String userId, String hateDog) {
+        return userService.updateHateDog(userId, hateDog);
+    }
+
     //아이디찾기
     private final JavaMailSender javaMailSender;
 

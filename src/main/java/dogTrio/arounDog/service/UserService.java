@@ -58,4 +58,22 @@ public class UserService {
             return false;
         }
     }
+
+    public String getHateDog(String id) {
+        List<String> hateDogs = userRepository.findHateDog(id);
+        if (!hateDogs.isEmpty()) {
+            return hateDogs.get(0);
+        }
+        return "";
+    }
+
+    @Transactional
+    public Boolean updateHateDog(String id, String hateDog) {
+        Optional<User> findUser = userRepository.findByUserId(id);
+        if (findUser.isPresent()) {
+            findUser.get().updateHateDog(hateDog);
+            return true;
+        }
+        return false;
+    }
 }

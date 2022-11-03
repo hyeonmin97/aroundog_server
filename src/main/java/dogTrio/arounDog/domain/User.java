@@ -28,6 +28,13 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
+    @JoinColumn(name="hate_dog")
+    private String hateDog;
+
+    public void updateHateDog(String hateDog) {
+        this.hateDog = hateDog;
+    }
+
     public User(String userId, String userName, String password, Integer age, int image, String phone, String email, Gender gender) {
         this.userId = userId;
         this.password = password;
