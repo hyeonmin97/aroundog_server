@@ -26,6 +26,7 @@ public class WalkController {
 
     @Value("${basePath}")
     String basePath;
+
     @GetMapping("/walk/{userId}") //사용자의 전체 산책 기록
     public List<Walk> userWalkList(@PathVariable Long userId) {
         List<Walk> walks = userService.userWalkList(userId);
@@ -68,5 +69,10 @@ public class WalkController {
     public WalkWeekDto week(@RequestParam String userId) {
         WalkWeekDto walkWeekDto = walkService.walkWeekData(userId);
         return walkWeekDto;
+    }
+
+    @GetMapping("/walk/{userId}/allInfo")
+    public AllInformationDto allInfo(@PathVariable String userId) {
+        return walkService.getAllWalkData(userId);
     }
 }

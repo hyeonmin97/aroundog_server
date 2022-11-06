@@ -1,10 +1,7 @@
 package dogTrio.arounDog.service;
 
 import dogTrio.arounDog.domain.*;
-import dogTrio.arounDog.dto.WalkButtonDto;
-import dogTrio.arounDog.dto.WalkDto;
-import dogTrio.arounDog.dto.WalkWeekDto;
-import dogTrio.arounDog.dto.WalkWithGoodBad;
+import dogTrio.arounDog.dto.*;
 import dogTrio.arounDog.repository.GoodBadRepository;
 import dogTrio.arounDog.repository.UserRepository;
 import dogTrio.arounDog.repository.WalkRepository;
@@ -18,7 +15,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,6 +77,53 @@ public class WalkService {
             findWalk.clickButton("bad");
         }
         goodBadRepository.save(button);
+    }
+
+    public AllInformationDto getAllWalkData(String userId) {
+        //토탈 데이터 불러와서 토탈 저장하고 월별로 나눠줄까? 아니면 쿼리를 따로 날릴까
+        //일단 한번에
+        List<Walk> findIdList = walkRepository.findById(userId);
+        if (!findIdList.isEmpty()) {
+            Long[] summaryTotalData = new Long[3];//시간, 거리, 횟수
+            LinkedHashMap<YearMonth, Long[]> summaryMonthData = new LinkedHashMap<>();
+            LinkedHashMap<YearMonth, ArrayList<MonthInformationDto>> allMonthData = new LinkedHashMap<>();
+
+            summaryTotalData[0] = Long.valueOf(0);
+            summaryTotalData[1] = Long.valueOf(0);
+            summaryTotalData[2] = Long.valueOf(0);
+            for (Walk walk : findIdList) {
+                //전체
+                summaryTotalData[0] += walk.getSecond();
+                summaryTotalData[1] += walk.getDistance();
+                summaryTotalData[2] += 1;
+
+                //월 계산
+                LocalDateTime startTime = walk.getStartTime();//산책기록의 시간
+                YearMonth yearMonth = YearMonth.of(startTime.getYear(), startTime.getMonth());
+                if (!summaryMonthData.containsKey(yearMonth)) {
+                    summaryMonthData.put(yearMonth, new Long[]{walk.getSecond(), walk.getDistance(), 1L});
+                } else {
+                    Long[] data = summaryMonthData.get(yearMonth);
+                    data[0] += walk.getSecond();
+                    data[1] += walk.getDistance();
+                    data[2] += 1;
+                }
+
+                if (!allMonthData.containsKey(yearMonth)) {
+                    ArrayList<MonthInformationDto> monthInformationDtos = new ArrayList<>();
+                    monthInformationDtos.add(new MonthInformationDto(walk.getId(), walk.getStartTime(), walk.getEndTime(), walk.getSecond(), walk.getDistance()));
+                    allMonthData.put(yearMonth, monthInformationDtos);
+                } else {
+                    allMonthData.get(yearMonth).add(new MonthInformationDto(walk.getId(), walk.getStartTime(), walk.getEndTime(), walk.getSecond(), walk.getDistance()));
+                }
+                //반복문 돌때마다 년도, 월 비교해서 달라지면 변수에 저장하고
+                //년,월 같으면 allMonthData의 리스트에 추가하면 됨
+
+            }
+            return new AllInformationDto(summaryTotalData, summaryMonthData, allMonthData, true);
+        } else {
+            return AllInformationDto.walkDataIsEmpty();
+        }
     }
 
     public WalkWeekDto walkWeekData(String userId){

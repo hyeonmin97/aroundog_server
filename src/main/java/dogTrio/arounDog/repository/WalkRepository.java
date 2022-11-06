@@ -5,7 +5,6 @@ import dogTrio.arounDog.dto.WalkDto;
 import dogTrio.arounDog.dto.WalkWeekDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
@@ -60,5 +59,9 @@ public class WalkRepository {
         return em.createQuery("select new dogTrio.arounDog.dto.WalkWeekDto(sum(w.second), sum(w.distance), count(w)) from Walk w left join w.user u where  w.user.userId = :userId and w.endTime between :startDate and :endDate", WalkWeekDto.class)
                 .setParameter("userId", userId).setParameter("startDate", startDate).setParameter("endDate", endDate)
                 .getResultList();
+    }
+
+    public List<Walk> findById(String userId) {
+        return em.createQuery("select w from Walk w join fetch w.user where w.user.userId = :userId order by w.id asc").setParameter("userId", userId).getResultList();
     }
 }
