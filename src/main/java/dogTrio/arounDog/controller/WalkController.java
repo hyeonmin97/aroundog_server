@@ -75,4 +75,9 @@ public class WalkController {
     public AllInformationDto allInfo(@PathVariable String userId) {
         return walkService.getAllWalkData(userId);
     }
+
+    @GetMapping("/walk/{walkId}/info")
+    public WalkInfoDto getWalkInfo(@PathVariable Long walkId) {
+        return walkService.getWalkInfo(walkId);
+    }
 }

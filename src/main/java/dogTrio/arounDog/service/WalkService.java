@@ -31,6 +31,13 @@ public class WalkService {
 
     private final GoodBadRepository goodBadRepository;
 
+    public WalkInfoDto getWalkInfo(Long walkId) {
+        Walk findWalk = walkRepository.findOne(walkId);
+        byte[] img = getImg(findWalk);
+        WalkInfoDto walkInfoDto = new WalkInfoDto(findWalk, img);
+        return walkInfoDto;
+    }
+
     @Transactional
     public void addWalk(String userId, WalkDto walkDto, String path) {
         Optional<User> user = userRepository.findByUserId(userId);
