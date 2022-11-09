@@ -37,7 +37,7 @@ public class DogImgService {
     public UpdateDogImageDto updateDogImage(Long userDogId, MultipartFile image) {
         UpdateDogImageDto updateDogImageDto = new UpdateDogImageDto();
         try {
-            String path = basePath + "\\" + userDogId;
+            String path = basePath + "/" + userDogId;
             File dir = new File(path);
             if (!dir.exists()) {
                 dir.mkdirs();//부모 디렉터리 없으면 부모까지 생성
@@ -54,7 +54,7 @@ public class DogImgService {
             String extension = image.getOriginalFilename().substring(image.getOriginalFilename().lastIndexOf("."));
 
             //파일이름 설정
-            String imagePath = path + "\\" + dateStr + extension;
+            String imagePath = path + "/" + dateStr + extension;
             File imageFile = new File(imagePath);
             image.transferTo(imageFile);
 
