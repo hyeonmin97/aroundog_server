@@ -64,7 +64,7 @@ public class DogImgService {
             DogImg dogImg = new DogImg(userDog, imagePath, fileName);
             dogImgRepository.save(dogImg);
             updateDogImageDto.setDogImgId(dogImg.getId());
-            updateDogImageDto.setPath(imagePath);
+            updateDogImageDto.setFilename(fileName);
 
         } catch (Exception e) {
             updateDogImageDto.setDogImgId(-100L);

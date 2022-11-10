@@ -6,5 +6,5 @@ import lombok.Setter;
 @Getter @Setter
 public class UpdateDogImageDto {
     Long dogImgId;
-    String path;
+    String filename;
 }
