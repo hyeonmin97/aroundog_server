@@ -54,13 +54,14 @@ public class DogImgService {
             String extension = image.getOriginalFilename().substring(image.getOriginalFilename().lastIndexOf("."));
 
             //파일이름 설정
-            String imagePath = path + "/" + dateStr + extension;
+            String fileName = dateStr + extension;
+            String imagePath = path + "/" + fileName;
             File imageFile = new File(imagePath);
             image.transferTo(imageFile);
 
             //db에 업데이트
             UserDog userDog = userDogRepository.find(userDogId);
-            DogImg dogImg = new DogImg(userDog, imagePath);
+            DogImg dogImg = new DogImg(userDog, imagePath, fileName);
             dogImgRepository.save(dogImg);
             updateDogImageDto.setDogImgId(dogImg.getId());
             updateDogImageDto.setPath(imagePath);
@@ -86,9 +87,10 @@ public class DogImgService {
         for (DogImg dogImg : findDogImgs) {
             Long id = dogImg.getId();
             String path = dogImg.getPath();
+            String fileName = dogImg.getFileName();
             Optional<byte[]> img = getImg(path);//경로에 있는 이미지 저장
 
-            ImgDto imgDto = new ImgDto(id, path, img);
+            ImgDto imgDto = new ImgDto(id, path, fileName, img);
             imgList.add(imgDto);
         }
         return imgList;

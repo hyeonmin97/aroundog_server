@@ -24,9 +24,13 @@ public class DogImg {
 
     private String path;
 
-    public DogImg(UserDog userDog, String path) {
+    @Column(name = "filename")
+    private String fileName;
+
+    public DogImg(UserDog userDog, String path, String fileName) {
         this.userDog = userDog;
         this.path = path;
+        this.fileName = fileName;
     }
 }
 
