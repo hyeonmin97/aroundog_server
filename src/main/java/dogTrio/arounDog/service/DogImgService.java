@@ -88,37 +88,10 @@ public class DogImgService {
             Long id = dogImg.getId();
             String path = dogImg.getPath();
             String fileName = dogImg.getFileName();
-            Optional<byte[]> img = getImg(path);//경로에 있는 이미지 저장
 
-            ImgDto imgDto = new ImgDto(id, path, fileName, img);
+            ImgDto imgDto = new ImgDto(id, path, fileName);
             imgList.add(imgDto);
         }
         return imgList;
-    }
-    private Optional<byte[]> getImg(String path) {
-        BufferedImage img;
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        byte[] byteImg = null;
-        try {
-            File file = new File(path);
-            if (file.exists()) {
-                String extension = path.substring(path.lastIndexOf(".") + 1);
-
-                img = ImageIO.read(file);
-                ImageIO.write(img, extension, bos);
-                bos.flush();
-                byteImg = bos.toByteArray();
-            }
-        } catch (IOException e) {
-
-            e.printStackTrace();
-        }
-
-        try {
-            bos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return Optional.ofNullable(byteImg);
     }
 }
