@@ -5,10 +5,7 @@ import dogTrio.arounDog.dto.UserCoordinateDogDto;
 import dogTrio.arounDog.service.CoordinateService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -21,17 +18,10 @@ public class CoordinateController {
     private final CoordinateService coordinateService;
 
 
-    @PostMapping("/coor/insert")
-    public Boolean insert(CoorDto coorDto) {
-        coorDto.setWalkTime(true);
-        return coordinateService.insertCoordinate(coorDto);
-    }
 
     @GetMapping("/coor/update")
-    public Boolean update(CoorDto coorDto) {
-        coorDto.setWalkTime(true);
-        return coordinateService.updateCoordinate(coorDto);
-
+    public Boolean update(@RequestParam List<Long> dogIdList, CoorDto coorDto) {
+        return coordinateService.updateCoordinate(dogIdList, coorDto);
     }
 
 
@@ -42,9 +32,9 @@ public class CoordinateController {
 
     }
 
-    @GetMapping("/coor/false")
-    public Boolean setFalse(@RequestParam String userId) {
-        return coordinateService.setFalse(userId);
+    @PostMapping("/coor/false")
+    public Boolean setFalse(@RequestParam List<Long> dogIdList) {
+        return coordinateService.setFalse(dogIdList);
     }
 
 }

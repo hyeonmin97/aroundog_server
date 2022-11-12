@@ -19,9 +19,9 @@ public class UserCoordinateDogDto {
     //latitude, longitude
     Double latitude;
     Double longitude;
+    Long dogId;
 
     //dog_breed
-    Long dogId;
     String dogName;
     Integer dogAge;
     Gender dogGender;
@@ -30,18 +30,19 @@ public class UserCoordinateDogDto {
 
 
     public UserCoordinateDogDto(Coordinate coordinate, UserDog userDog) {
-        this.userId = coordinate.getUser().getUserId();
-        this.userName = coordinate.getUser().getUserName();
-        this.userAge = coordinate.getUser().getAge();
-        this.userImage = coordinate.getUser().getImage();
-        this.latitude = coordinate.getLatitude();
-        this.longitude = coordinate.getLongitude();
-        this.dogId = userDog.getId();
+        this.userId = userDog.getUser().getUserId();
+        this.userName = userDog.getUser().getUserName();
+        this.userAge = userDog.getUser().getAge();
+        this.userImage = userDog.getUser().getImage();
         this.dogName = userDog.getName();
         this.dogAge = userDog.getAge();
         this.dogGender = userDog.getGender();
         this.dogWeight = userDog.getWeight();
         this.dogBreed = userDog.getDog().getBreed();
+
+        this.dogId = coordinate.getUserDog().getId();
+        this.latitude = coordinate.getLatitude();
+        this.longitude = coordinate.getLongitude();
 
     }
 }

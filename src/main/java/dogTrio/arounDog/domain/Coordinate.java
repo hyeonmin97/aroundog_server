@@ -16,8 +16,8 @@ public class Coordinate implements Serializable {
 
     @Id
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user")
-    private User user;
+    @JoinColumn(name = "user_dog_id")
+    private UserDog userDog;
 
     private Double latitude;
     private Double longitude;

@@ -6,6 +6,7 @@ import dogTrio.arounDog.domain.UserDog;
 import dogTrio.arounDog.dto.CoorDto;
 import dogTrio.arounDog.dto.UserCoordinateDogDto;
 import dogTrio.arounDog.repository.CoordinateRepository;
+import dogTrio.arounDog.repository.UserDogRepository;
 import dogTrio.arounDog.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,36 +22,30 @@ public class CoordinateService {
 
     private final CoordinateRepository coordinateRepository;
     private final UserRepository userRepository;
+    private final UserDogRepository userDogRepository;
+    
 
     @Transactional
-    public Boolean insertCoordinate(CoorDto coorDto) {
+    public Boolean updateCoordinate(List<Long> dogIdList, CoorDto coorDto) {
+        coorDto.setWalkTime(true);
+
         //insert를 무조건 실행하지말고 테이블에 있는지 확인해야함
-        Optional<User> findUser = userRepository.findByUserId(coorDto.getUserId());
-        if (findUser.isPresent()) {
-            Optional<Coordinate> existCoor = coordinateRepository.findOne(findUser.get());
-            if (existCoor.isPresent()) {//있을때
-                existCoor.get().updateCoor(coorDto.getLatitude(), coorDto.getLongitude(), coorDto.getTile(), coorDto.getWalking(), coorDto.getTimeStamp());
+        for (Long dogId : dogIdList) {
+            UserDog userDog = userDogRepository.find(dogId);
+            if (userDog != null) {
+                Optional<Coordinate> findCoor = coordinateRepository.findByUserDog(userDog);
 
-            } else { //없을때
-                Coordinate coordinate = CoorDto.createCoordinate(findUser.get(), coorDto);
-                coordinateRepository.save(coordinate);
-            }
-            return true;
-        }
-        return false;
-    }
-
-    @Transactional
-    public Boolean updateCoordinate(CoorDto coorDto) {
-        Optional<User> findUser = userRepository.findByUserId(coorDto.getUserId());
-        if (findUser.isPresent()) {
-            Optional<Coordinate> coordinate = coordinateRepository.findOne(findUser.get());
-            if (coordinate.isPresent()) {
-                coordinate.get().updateCoor(coorDto.getLatitude(), coorDto.getLongitude(), coorDto.getTile(), coorDto.getWalking(), coorDto.getTimeStamp());
-                return true;
+                if (findCoor.isPresent()) {//이미 존재하면 업데이트
+                    findCoor.get().updateCoor(coorDto.getLatitude(), coorDto.getLongitude(), coorDto.getTile(), coorDto.getWalking(), coorDto.getTimeStamp());
+                } else {//없으면 추가
+                    Coordinate coordinate = CoorDto.createCoordinate(userDog, coorDto);
+                    coordinateRepository.save(coordinate);
+                }
+            } else {
+                return false;//userDog없으면 false
             }
         }
-        return false;
+        return true;
     }
 
     @Transactional
@@ -66,16 +61,20 @@ public class CoordinateService {
     }
 
     @Transactional
-    public Boolean setFalse(String userId) {
-        Optional<User> findUser = userRepository.findByUserId(userId);
-        if (findUser.isPresent()) {
-            Optional<Coordinate> findCoor = coordinateRepository.findOne(findUser.get());
-            if (findCoor.isPresent()) {
-                Coordinate coordinate = findCoor.get();
-                coordinate.endWalking();
-                return true;
+    public Boolean setFalse(List<Long> dogIdList) {
+        for (Long dogId : dogIdList) {
+            UserDog userDog = userDogRepository.find(dogId);
+            if (userDog != null) {
+                Optional<Coordinate> findCoor = coordinateRepository.findByUserDog(userDog);
+
+                if (findCoor.isPresent()) {
+                    Coordinate coordinate = findCoor.get();
+                    coordinate.endWalking();
+                }
+            } else {
+                return false;
             }
         }
-        return false;
+        return true;
     }
 }

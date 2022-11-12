@@ -2,6 +2,7 @@ package dogTrio.arounDog.repository;
 
 import dogTrio.arounDog.domain.Coordinate;
 import dogTrio.arounDog.domain.User;
+import dogTrio.arounDog.domain.UserDog;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,10 +21,10 @@ public class CoordinateRepository {
         em.persist(coordinate);
     }
 
-    public Optional<Coordinate> findOne(User user) {
-        List<Coordinate> coordinates = em.createQuery("select c from Coordinate c where c.user = :user", Coordinate.class).setParameter("user", user).getResultList();
-        return coordinates.stream().findAny();
-        //        return em.find(Coordinate.class, user.getId());
+    public Optional<Coordinate> findByUserDog(UserDog userDog) {
+        List<Coordinate> findCoor = em.createQuery("select c from Coordinate c join fetch c.userDog where c.userDog = :userDog", Coordinate.class).setParameter("userDog", userDog).getResultList();
+
+        return findCoor.stream().findAny();
     }
 
     /**
@@ -38,8 +39,8 @@ public class CoordinateRepository {
 
     @Transactional
     public List<Object[]> findTileAndDog(String tile) {
-        return em.createQuery("select c, d from Coordinate c, UserDog d join fetch d.dog join fetch c.user " +
-                "where c.user = d.user " +
+        return em.createQuery("select c, d from Coordinate c, UserDog d join fetch d.user join fetch d.dog " +
+                "where c.userDog = d " +
                 "and c.tile=:tile " +
                 "and c.walking = :boolean")
                 .setParameter("tile", tile)
