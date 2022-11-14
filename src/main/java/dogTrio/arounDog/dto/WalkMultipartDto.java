@@ -31,8 +31,10 @@ public class WalkMultipartDto {
 
     private Long distance;
 
+    private String dogIds;
+
     public WalkDto makeWalkDto() {
-        WalkDto walkDto = WalkDto.makeWalkDto(course, courseCenter, startTime, endTime, tile, second, distance);
+        WalkDto walkDto = WalkDto.makeWalkDto(course, courseCenter, startTime, endTime, tile, second, distance, dogIds);
         return walkDto;
     }
 }

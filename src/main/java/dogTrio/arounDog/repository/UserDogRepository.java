@@ -33,4 +33,8 @@ public class UserDogRepository {
     public void remove(UserDog dog) {
         em.remove(dog);
     }
+
+    public List<UserDog> getDogInfo(List<Long> dogIds) {
+        return em.createQuery("select u from UserDog u where u.id in :ids", UserDog.class).setParameter("ids", dogIds).getResultList();
+    }
 }

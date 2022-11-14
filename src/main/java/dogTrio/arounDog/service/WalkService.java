@@ -1,10 +1,9 @@
 package dogTrio.arounDog.service;
 
+import dogTrio.arounDog.controller.DogController;
 import dogTrio.arounDog.domain.*;
 import dogTrio.arounDog.dto.*;
-import dogTrio.arounDog.repository.GoodBadRepository;
-import dogTrio.arounDog.repository.UserRepository;
-import dogTrio.arounDog.repository.WalkRepository;
+import dogTrio.arounDog.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,10 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -30,11 +26,26 @@ public class WalkService {
     private final UserRepository userRepository;
 
     private final GoodBadRepository goodBadRepository;
+    private final UserDogRepository userDogRepository;
 
     public WalkInfoDto getWalkInfo(Long walkId) {
         Walk findWalk = walkRepository.findOne(walkId);
         byte[] img = getImg(findWalk);
-        WalkInfoDto walkInfoDto = new WalkInfoDto(findWalk, img);
+        int size = findWalk.getDogIds().length();
+        ArrayList<Long> dogs = new ArrayList<>();
+        for (String dog : findWalk.getDogIds().split("%")) {
+            if (!dog.equals("")) {
+                dogs.add(Long.parseLong(dog));
+            }
+        }
+
+        List<UserDog> findDogList = userDogRepository.getDogInfo(dogs);
+        HashMap<Long, String> idNameMap = new HashMap<>();
+        for (UserDog userDog : findDogList) {
+            idNameMap.put(userDog.getId(), userDog.getName());
+        }
+
+        WalkInfoDto walkInfoDto = new WalkInfoDto(findWalk, img, idNameMap);
         return walkInfoDto;
     }
 

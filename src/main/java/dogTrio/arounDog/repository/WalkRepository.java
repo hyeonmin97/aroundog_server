@@ -64,4 +64,8 @@ public class WalkRepository {
     public List<Walk> findById(String userId) {
         return em.createQuery("select w from Walk w join fetch w.user where w.user.userId = :userId order by w.id asc").setParameter("userId", userId).getResultList();
     }
+
+    public void remove(Walk walk) {
+        em.remove(walk);
+    }
 }

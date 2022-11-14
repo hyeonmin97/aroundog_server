@@ -2,11 +2,13 @@ package dogTrio.arounDog.controller;
 
 import dogTrio.arounDog.domain.Walk;
 import dogTrio.arounDog.dto.*;
+import dogTrio.arounDog.repository.WalkRepository;
 import dogTrio.arounDog.service.UserService;
 import dogTrio.arounDog.service.WalkService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
@@ -23,6 +25,7 @@ public class WalkController {
 
     private final UserService userService;
     private final WalkService walkService;
+    private final WalkRepository walkRepository;
 
     @Value("${basePath}")
     String basePath;
@@ -79,5 +82,17 @@ public class WalkController {
     @GetMapping("/walk/{walkId}/info")
     public WalkInfoDto getWalkInfo(@PathVariable Long walkId) {
         return walkService.getWalkInfo(walkId);
+    }
+
+    @Transactional
+    @DeleteMapping("/walk/{walkId}")
+    public Boolean deleteWalk(@PathVariable Long walkId) {
+        Walk findWalk = walkRepository.findOne(walkId);
+        walkRepository.remove(findWalk);
+        Walk lastFind = walkRepository.findOne(walkId);
+        if (lastFind == null) {
+            return true;
+        }
+        return false;
     }
 }

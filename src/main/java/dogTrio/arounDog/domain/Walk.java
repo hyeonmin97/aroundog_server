@@ -34,6 +34,7 @@ public class Walk {
     private LocalDateTime endTime;
     private Long second;
     private Long distance;
+    private String dogIds;
 
 
     public Walk() {
@@ -44,7 +45,7 @@ public class Walk {
         this.user = user;
     }
 
-    public Walk(User user, String course, String courseCenter, int good, int bad, String img, LocalDateTime startTime, LocalDateTime endTime, String tile, Long second, Long distance) {
+    public Walk(User user, String course, String courseCenter, int good, int bad, String img, LocalDateTime startTime, LocalDateTime endTime, String tile, Long second, Long distance, String dogIds) {
         this.user = user;
         this.course = course;
         this.courseCenter = courseCenter;
@@ -56,6 +57,7 @@ public class Walk {
         this.tile = tile;
         this.second = second;
         this.distance = distance;
+        this.dogIds = dogIds;
     }
 
     public void clickButton(String button) {

@@ -51,6 +51,23 @@ public class DogController {
     public byte[] getDogImg(@PathVariable Long dogId, @PathVariable String filename) throws IOException {
         String path = basePath + "dog/" + dogId + "/" + filename;
 
+        return getImage(path);
+
+    }
+
+    @ResponseBody
+    @GetMapping("/image/{dogId}")
+    public byte[] getDogImg(@PathVariable Long dogId) throws IOException {
+        File dir = new File(basePath + "dog/" + dogId);
+        String[] list = dir.list();
+
+        String path = basePath + "dog/" + dogId + "/" + list[0];
+
+        return getImage(path);
+
+    }
+
+    private static byte[] getImage(String path) {
         FileInputStream fis = null;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 

@@ -19,6 +19,7 @@ public class WalkDto {
     private int good;
     private int bad;
     private String img;
+    private String v;
 
     @DateTimeFormat(pattern = "yyyyMMddHHmmss")
     private LocalDateTime startTime;
@@ -30,11 +31,13 @@ public class WalkDto {
     private Long second;
 
     private Long distance;
+    private String dogIds;
+
     public WalkDto() {
 
     }
 
-    public WalkDto(String course, String courseCenter, LocalDateTime startTime, LocalDateTime endTime, String tile, Long second, Long distance) {
+    public WalkDto(String course, String courseCenter, LocalDateTime startTime, LocalDateTime endTime, String tile, Long second, Long distance, String dogIds) {
         this.course = course;
         this.courseCenter = courseCenter;
         this.startTime = startTime;
@@ -42,10 +45,11 @@ public class WalkDto {
         this.tile = tile;
         this.second = second;
         this.distance = distance;
+        this.dogIds = dogIds;
     }
 
-    public static WalkDto makeWalkDto(String course, String courseCenter, LocalDateTime startTime, LocalDateTime endTim, String tile, Long second, Long distance) {
-        WalkDto walkDto = new WalkDto(course, courseCenter, startTime, endTim, tile, second, distance);
+    public static WalkDto makeWalkDto(String course, String courseCenter, LocalDateTime startTime, LocalDateTime endTim, String tile, Long second, Long distance, String dogIds) {
+        WalkDto walkDto = new WalkDto(course, courseCenter, startTime, endTim, tile, second, distance, dogIds);
         return walkDto;
     }
 
@@ -55,6 +59,6 @@ public class WalkDto {
     }
 
     public Walk makeEntity() {
-        return new Walk(user, course, courseCenter, 0, 0, img, startTime, endTime, tile, second, distance);
+        return new Walk(user, course, courseCenter, 0, 0, img, startTime, endTime, tile, second, distance, dogIds);
     }
 }

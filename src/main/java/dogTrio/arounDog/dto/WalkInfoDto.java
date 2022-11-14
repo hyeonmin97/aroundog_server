@@ -1,5 +1,6 @@
 package dogTrio.arounDog.dto;
 
+import dogTrio.arounDog.domain.UserDog;
 import dogTrio.arounDog.domain.Walk;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +8,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Lob;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
 
 @Getter
 public class WalkInfoDto {
@@ -21,8 +24,11 @@ public class WalkInfoDto {
     private LocalDateTime endTime;
     private Long second;
     private Long distance;
+    private String dogIds;
 
-    public WalkInfoDto (Walk walk, byte[] img) {
+    private HashMap<Long, String> idNameMap;
+
+    public WalkInfoDto (Walk walk, byte[] img, HashMap<Long, String> idNameMap) {
         this.walkId = walk.getId();
         this.course = walk.getCourse();
         this.img = img;
@@ -30,5 +36,7 @@ public class WalkInfoDto {
         this.endTime = walk.getEndTime();
         this.second = walk.getSecond();
         this.distance = walk.getDistance();
+        this.dogIds = walk.getDogIds();
+        this.idNameMap = idNameMap;
     }
 }

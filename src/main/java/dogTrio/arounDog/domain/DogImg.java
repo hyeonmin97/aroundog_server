@@ -18,7 +18,6 @@ public class DogImg {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_dog_id")
     private UserDog userDog;
 
