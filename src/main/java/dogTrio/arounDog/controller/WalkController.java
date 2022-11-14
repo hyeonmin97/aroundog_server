@@ -2,6 +2,7 @@ package dogTrio.arounDog.controller;
 
 import dogTrio.arounDog.domain.Walk;
 import dogTrio.arounDog.dto.*;
+import dogTrio.arounDog.repository.GoodBadRepository;
 import dogTrio.arounDog.repository.WalkRepository;
 import dogTrio.arounDog.service.UserService;
 import dogTrio.arounDog.service.WalkService;
@@ -26,6 +27,7 @@ public class WalkController {
     private final UserService userService;
     private final WalkService walkService;
     private final WalkRepository walkRepository;
+    private final GoodBadRepository goodBadRepository;
 
     @Value("${basePath}")
     String basePath;
@@ -88,6 +90,8 @@ public class WalkController {
     @DeleteMapping("/walk/{walkId}")
     public Boolean deleteWalk(@PathVariable Long walkId) {
         Walk findWalk = walkRepository.findOne(walkId);
+        goodBadRepository.deleteGood(findWalk);
+        goodBadRepository.deleteBad(findWalk);
         walkRepository.remove(findWalk);
         Walk lastFind = walkRepository.findOne(walkId);
         if (lastFind == null) {
