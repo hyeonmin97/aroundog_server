@@ -17,6 +17,11 @@ public class CoordinateRepository {
 
     private final EntityManager em;
 
+
+    public void delete(Coordinate coordinate) {
+        em.remove(coordinate);
+    }
+
     public void save(Coordinate coordinate) {
         em.persist(coordinate);
     }

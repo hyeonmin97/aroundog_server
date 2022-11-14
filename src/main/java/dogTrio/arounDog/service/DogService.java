@@ -1,11 +1,13 @@
 package dogTrio.arounDog.service;
 
+import dogTrio.arounDog.domain.Coordinate;
 import dogTrio.arounDog.domain.Dog;
 import dogTrio.arounDog.domain.User;
 import dogTrio.arounDog.domain.UserDog;
 import dogTrio.arounDog.dto.UserDogDto;
 import dogTrio.arounDog.dto.UserDogWithBreedDto;
 import dogTrio.arounDog.dto.UserDto;
+import dogTrio.arounDog.repository.CoordinateRepository;
 import dogTrio.arounDog.repository.DogRepository;
 import dogTrio.arounDog.repository.UserDogRepository;
 import dogTrio.arounDog.repository.UserRepository;
@@ -24,6 +26,7 @@ public class DogService {
     private final UserRepository userRepository;
     private final DogRepository dogRepository;
     private final UserDogRepository userDogRepository;
+    private final CoordinateRepository coordinateRepository;
 
     @Transactional
     public Long addDog(UserDogDto userDogDto) {
@@ -42,6 +45,10 @@ public class DogService {
     @Transactional
     public Boolean deleteDog(Long dogId) {
         UserDog findUserDog = userDogRepository.find(dogId);
+        Optional<Coordinate> findCoor = coordinateRepository.findByUserDog(findUserDog);
+        if (findCoor.isPresent()) {
+            coordinateRepository.delete(findCoor.get());
+        }
         userDogRepository.remove(findUserDog);
         UserDog dog = userDogRepository.find(dogId);
         if (dog == null) {
