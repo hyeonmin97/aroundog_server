@@ -29,23 +29,26 @@ public class CoordinateService {
     public Boolean updateCoordinate(List<Long> dogIdList, CoorDto coorDto) {
         coorDto.setWalkTime(true);
 
-        //insert를 무조건 실행하지말고 테이블에 있는지 확인해야함
-        for (Long dogId : dogIdList) {
-            UserDog userDog = userDogRepository.find(dogId);
-            if (userDog != null) {
-                Optional<Coordinate> findCoor = coordinateRepository.findByUserDog(userDog);
+        if (!dogIdList.isEmpty()) {
+            //insert를 무조건 실행하지말고 테이블에 있는지 확인해야함
+            for (Long dogId : dogIdList) {
+                UserDog userDog = userDogRepository.find(dogId);
+                if (userDog != null) {
+                    Optional<Coordinate> findCoor = coordinateRepository.findByUserDog(userDog);
 
-                if (findCoor.isPresent()) {//이미 존재하면 업데이트
-                    findCoor.get().updateCoor(coorDto.getLatitude(), coorDto.getLongitude(), coorDto.getTile(), coorDto.getWalking(), coorDto.getTimeStamp());
-                } else {//없으면 추가
-                    Coordinate coordinate = CoorDto.createCoordinate(userDog, coorDto);
-                    coordinateRepository.save(coordinate);
+                    if (findCoor.isPresent()) {//이미 존재하면 업데이트
+                        findCoor.get().updateCoor(coorDto.getLatitude(), coorDto.getLongitude(), coorDto.getTile(), coorDto.getWalking(), coorDto.getTimeStamp());
+                    } else {//없으면 추가
+                        Coordinate coordinate = CoorDto.createCoordinate(userDog, coorDto);
+                        coordinateRepository.save(coordinate);
+                    }
+                } else {
+                    return false;//userDog없으면 false
                 }
-            } else {
-                return false;//userDog없으면 false
             }
+            return true;
         }
-        return true;
+        return false;
     }
 
     @Transactional
