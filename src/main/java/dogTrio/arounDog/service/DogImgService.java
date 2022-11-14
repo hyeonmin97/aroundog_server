@@ -17,6 +17,9 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -77,6 +80,15 @@ public class DogImgService {
     @Transactional
     public boolean deleteDogImgById(Long dogImgId) {
         DogImg dogImg = dogImgRepository.findDogImg(dogImgId);
+        //파일도 함께 삭제
+        String path = dogImg.getPath();
+        Path filePath = Paths.get(path);
+        try {
+            Files.deleteIfExists(filePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return dogImgRepository.delete(dogImg);
     }
 
