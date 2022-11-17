@@ -16,8 +16,6 @@ public class WalkDto {
     @Lob
     private String course;
     private String courseCenter;
-    private int good;
-    private int bad;
     private String img;
     private String v;
 
@@ -59,6 +57,6 @@ public class WalkDto {
     }
 
     public Walk makeEntity() {
-        return new Walk(user, course, courseCenter, 0, 0, img, startTime, endTime, tile, second, distance, dogIds);
+        return new Walk(user, course, courseCenter, img, startTime, endTime, tile, second, distance, dogIds);
     }
 }

@@ -24,8 +24,6 @@ public class Walk {
     @Lob
     private String course;
     private String courseCenter;
-    private int good;
-    private int bad;
     private String img;
 
     private String tile;
@@ -45,12 +43,10 @@ public class Walk {
         this.user = user;
     }
 
-    public Walk(User user, String course, String courseCenter, int good, int bad, String img, LocalDateTime startTime, LocalDateTime endTime, String tile, Long second, Long distance, String dogIds) {
+    public Walk(User user, String course, String courseCenter, String img, LocalDateTime startTime, LocalDateTime endTime, String tile, Long second, Long distance, String dogIds) {
         this.user = user;
         this.course = course;
         this.courseCenter = courseCenter;
-        this.good = good;
-        this.bad = bad;
         this.img = img;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -58,13 +54,5 @@ public class Walk {
         this.second = second;
         this.distance = distance;
         this.dogIds = dogIds;
-    }
-
-    public void clickButton(String button) {
-        if ("good".equals(button)) {
-            this.good += 1;
-        } else {
-            this.bad -= 1;
-        }
     }
 }

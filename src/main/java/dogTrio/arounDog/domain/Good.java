@@ -21,11 +21,11 @@ public class Good implements Button{
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "walk_id")
-    private Walk walk;
+    @JoinColumn(name = "de_walk_id")
+    private WalkDeduplication deWalk;
 
-    public Good(User user, Walk walk) {
+    public Good(User user, WalkDeduplication deWalk) {
         this.user = user;
-        this.walk = walk;
+        this.deWalk = deWalk;
     }
 }

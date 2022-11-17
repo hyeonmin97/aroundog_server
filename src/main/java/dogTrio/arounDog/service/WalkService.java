@@ -28,9 +28,11 @@ public class WalkService {
     private final GoodBadRepository goodBadRepository;
     private final UserDogRepository userDogRepository;
 
+    private final DeduplicationWalkRepository deduplicationWalkRepository;
+
     public WalkInfoDto getWalkInfo(Long walkId) {
         Walk findWalk = walkRepository.findOne(walkId);
-        byte[] img = getImg(findWalk);
+        byte[] img = getImg(findWalk.getImg());
         int size = findWalk.getDogIds().length();
         ArrayList<Long> dogs = new ArrayList<>();
         for (String dog : findWalk.getDogIds().split("%")) {
@@ -66,15 +68,15 @@ public class WalkService {
         ArrayList<String> tiles = getTiles(tile);
 
         //주변 산책로 검색
-        List<Object[]> walkList = walkRepository.findWithTile(findUser.get().getId(), tiles, start, size);
+        List<Object[]> walkList = deduplicationWalkRepository.findWithTile(findUser.get().getId(), tiles, start, size);
 
         //object[0] : Walk / object[1] : Good / object[2] : Bad
         for (Object[] walk : walkList) {
-            Walk findWalk = (Walk) walk[0];
+            WalkDeduplication findWalk = (WalkDeduplication) walk[0];
             Good good = (Good) walk[1];
             Bad bad = (Bad) walk[2];
 
-            byte[] byteImg = getImg(findWalk);
+            byte[] byteImg = getImg(findWalk.getImg());
 
             walkWithGoodBadList.add(new WalkWithGoodBad(findWalk, byteImg, good, bad));
         }
@@ -84,7 +86,7 @@ public class WalkService {
     @Transactional
     public void clickButton(WalkButtonDto walkButtonDto) {
         Optional<User> findUser = userRepository.findByUserId(walkButtonDto.getUserId());
-        Walk findWalk = walkRepository.findOne(walkButtonDto.getWalkId());
+        WalkDeduplication findWalk = deduplicationWalkRepository.findOne(walkButtonDto.getWalkId());
         Button button;
         if (walkButtonDto.getButton().equals("good")) {
             button = new Good(findUser.get(), findWalk);
@@ -151,12 +153,12 @@ public class WalkService {
         return weekData.get(0);
     }
 
-    private static byte[] getImg(Walk findWalk) {
+    private static byte[] getImg(String path) {
         BufferedImage img;
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
         try {
-            File file = new File(findWalk.getImg());
+            File file = new File(path);
             if (file.exists()) {
                 img = ImageIO.read(file);
                 ImageIO.write(img, "jpg", bos);
